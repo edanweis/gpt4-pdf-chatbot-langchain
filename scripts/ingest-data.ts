@@ -10,18 +10,20 @@ import { PINECONE_INDEX_NAME, PINECONE_NAME_SPACE } from '@/config/pinecone';
 // const filePath = 'docs/02.pdf';
 const folder = 'docs'
 
-const readDir = (dirPath: string) => {
+const getStaticProps = (dirPath: string) => {
   const files = fs.readdirSync(dirPath);
   const pdfs = files.filter((file) => file.endsWith('.pdf'));
   return pdfs;
 }
+
+
 
 const run = async () => {
   try {
     // iterate through pdfs in folder (client side code)
     // const files = fs.readdirSync(folder);
     /*load raw docs from the pdf file in the directory */
-    const pdfs = readDir(folder);
+    const pdfs = getStaticProps(folder);
     for (const pdf of pdfs) {
       const filePath = `${folder}/${pdf}`;
       const loader = new PDFLoader(filePath);
@@ -58,7 +60,7 @@ const run = async () => {
     }
 };
 
-export { run, readDir };
+export { run, getStaticProps };
 
 (async () => {
   await run();
